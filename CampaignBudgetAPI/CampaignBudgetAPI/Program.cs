@@ -18,12 +18,12 @@ namespace CampaignBudgetAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Configure logging
+            // Configure logging: Use console for output and set minimum level to Trace
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole();
             builder.Logging.SetMinimumLevel(LogLevel.Trace);
 
-            // Add services to the container.
+            // Add services to the container
             builder.Services
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters()
@@ -31,10 +31,11 @@ namespace CampaignBudgetAPI
             builder.Services.AddControllers();
             builder.Services.AddScoped<BudgetCalculator>();
 
-            // Configure Swagger/OpenAPI
+            // Configure Swagger/OpenAPI for API documentation
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Configure CORS to allow all origins, methods, and headers 
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
@@ -49,17 +50,19 @@ namespace CampaignBudgetAPI
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline
             if (app.Environment.IsDevelopment())
             {
+                // Enable Swagger UI in development environment
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Campaign Budget API V1");
-                    c.RoutePrefix = string.Empty; // To serve the Swagger UI at the app's root
+                    c.RoutePrefix = string.Empty; // Serve Swagger UI at the app's root
                 });
             }
 
+            // Global exception handler
             app.UseExceptionHandler(errorApp =>
             {
                 errorApp.Run(async context =>
@@ -81,6 +84,7 @@ namespace CampaignBudgetAPI
                 });
             });
 
+            // Apply CORS policy
             app.UseCors("AllowAll");
             app.UseCors();
             app.UseAuthorization();
@@ -90,6 +94,7 @@ namespace CampaignBudgetAPI
         }
     }
 
+    // Custom error response model for consistent error handling
     public class ErrorResponse
     {
         public string Message { get; set; }

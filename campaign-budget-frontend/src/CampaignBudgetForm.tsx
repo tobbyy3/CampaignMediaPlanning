@@ -19,6 +19,7 @@ const CampaignBudgetCalculator: React.FC = () => {
   const [result, setResult] = useState<CampaignBudgetResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -26,6 +27,7 @@ const CampaignBudgetCalculator: React.FC = () => {
       const response = await apiClient.post('/CampaignBudget/calculate', formData);
       setResult(response.data);
     } catch (error) {
+      // Handle different types of errors
       if (axios.isAxiosError(error) && error.response) {
         const { status, data } = error.response;
         if (status === 422) {
@@ -45,6 +47,7 @@ const CampaignBudgetCalculator: React.FC = () => {
     }
   };
 
+  // Add a new ad budget to the form
   const handleAddAdBudget = () => {
     setFormData(prevData => ({
       ...prevData,
@@ -52,6 +55,7 @@ const CampaignBudgetCalculator: React.FC = () => {
     }));
   };
 
+  // Remove an ad budget from the form
   const handleRemoveAdBudget = (index: number) => {
     setFormData(prevData => ({
       ...prevData,
