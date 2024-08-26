@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: ./campaign-budget-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./CampaignBudgetAPI/CampaignBudgetAPI
+      dockerfile: Dockerfile
+    ports:
+      - "5049:5049"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5049
