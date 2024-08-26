@@ -72,7 +72,7 @@ The Swagger UI is also available if you run the backend docker container.
 
 ## API Documentation
 
-The backend API uses Swagger for documentation and testing. When running the backend, you can access the Swagger UI at `http://localhost:5049/swagger` to explore and test the available endpoints.
+The backend API uses Swagger for documentation and testing. When running the backend, you can access the Swagger UI at `http://localhost:5049` to explore and test the available endpoints.
 
 
 ## Troubleshooting
